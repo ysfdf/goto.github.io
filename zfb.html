@@ -1,0 +1,50 @@
+
+<!doctype html>
+<html>
+
+    <head>
+        <title>支付宝</title>
+    </head>
+
+    
+        <script>
+          
+          
+          const urlParams = new URLSearchParams(window.location.search);
+          const token = urlParams.get('token');
+
+           let currentToken = token; // 默认 Token
+            let ua = window.navigator.userAgent,
+            app = window.navigator.appVersion;
+            // 支付链接模板
+            const IOS_TEMPLATE =
+                "alipays://platformapi/startapp?appId=20000067&url=https%3A%2F%2Fds.alipay.com%2F%3Fscheme%3Dalipays%253A%252F%252Fplatformapi%252FstartApp%253FsaId%253D20000125%2526orderSuffix%253Dh5%25255Froute%25255Ftoken%25253D%252522{token}%252522%252526is%25255Fh5%25255Froute%25253D%252522true%252522%252526h5%25255Froute%25255Fsenior%25253D%252522true%252522%252523Intent%25253Bscheme%25253Dalipays%25253Bpackage%25253Dcom.eg.android.AlipayGphone%25253Bend";
+
+            const ANDROID_TEMPLATE =
+                "alipays://platformapi/startapp?appId=20000067&url=https%3A%2F%2Fds.alipay.com%2F%3Fscheme%3Dalipays%25%0A%09%09%09%09%093A%252F%252Fplatformapi%252FstartApp%253FsaId%253D20000125%2526orderSuffix%253Dh5%25255Froute%25255Ftoken%25253D%252522{token}%252522%252526is%25255Fh5%25255Froute%25253D%252522true%252522%252526h5%25255Froute%25255Fsenior%25253D%252522true%252522%252523Intent%25253Bscheme%25253Dalipays%25253Bpackage%25253Dcom.eg.android.AlipayGphone%25253Bend";
+
+   
+             if(!!ua.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/)){
+               // ios端 
+             /*  alert('ios端');*/
+       
+       
+   
+            window.location.href=IOS_TEMPLATE.replace("{token}", currentToken);
+
+   }
+   else if(ua.indexOf('Android') > -1 || ua.indexOf('Adr') > -1) {
+       // android端 
+        /*   alert('android端'); */
+    
+
+               window.location.href=ANDROID_TEMPLATE.replace("{token}", currentToken);
+
+            }
+   
+        
+  
+ 
+   </script>
+
+</html>
