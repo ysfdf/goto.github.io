@@ -1,13 +1,10 @@
-http://goto.jingqibiji.xyz/qrcode.html
-
-
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>二维码生成器</title>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.qrcode/1.0/jquery.qrcode.min.js"></script>
     <style>
         body {
@@ -24,6 +21,14 @@ http://goto.jingqibiji.xyz/qrcode.html
             color: blue;
             text-decoration: underline;
         }
+        #urlDisplay.copied {
+            color: green !important; /* 使用 !important 确保颜色生效 */
+        }
+        #copyStatus {
+            display: none;
+            color: green;
+            margin-left: 10px;
+        }
     </style>
 </head>
 <body>
@@ -31,6 +36,7 @@ http://goto.jingqibiji.xyz/qrcode.html
 <h1>二维码生成器</h1>
 <div id="qrcode"></div>
 <div id="urlDisplay" style="display: none;"></div>
+<span id="copyStatus">已复制</span>
 
 <script>
     $(document).ready(function() {
@@ -44,16 +50,28 @@ http://goto.jingqibiji.xyz/qrcode.html
             // 显示 URL
             $('#urlDisplay').text(url).show().click(function() {
                 // 复制 URL 到剪贴板
-                navigator.clipboard.writeText(url).then(() => {
-                    alert('URL 已复制到剪贴板！');
-                }, (err) => {
-                    console.error('复制失败:', err);
-                });
+                copyToClipboard(url);
+                // 改变颜色
+                $(this).addClass('copied');
+                $('#copyStatus').show(); // 显示已复制
+                setTimeout(() => {
+                    $(this).removeClass('copied'); // 还原颜色
+                    $('#copyStatus').hide(); // 隐藏已复制
+                }, 2000); // 2秒后还原
             });
         } else {
             $('#qrcode').text('请提供一个有效的 URL 参数。');
         }
     });
+
+    function copyToClipboard(text) {
+        const textarea = document.createElement('textarea');
+        textarea.value = text;
+        document.body.appendChild(textarea);
+        textarea.select();
+        document.execCommand('copy');
+        document.body.removeChild(textarea);
+    }
 </script>
 
 </body>
