@@ -1,10 +1,13 @@
+http://goto.jingqibiji.xyz/qrcode.html
+
+
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>二维码生成器</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.qrcode/1.0/jquery.qrcode.min.js"></script>
     <style>
         body {
@@ -15,12 +18,19 @@
         #qrcode {
             margin-top: 20px;
         }
+        #urlDisplay {
+            margin-top: 20px;
+            cursor: pointer;
+            color: blue;
+            text-decoration: underline;
+        }
     </style>
 </head>
 <body>
 
 <h1>二维码生成器</h1>
 <div id="qrcode"></div>
+<div id="urlDisplay" style="display: none;"></div>
 
 <script>
     $(document).ready(function() {
@@ -31,6 +41,15 @@
         if (url) {
             // 生成二维码
             $('#qrcode').qrcode(url);
+            // 显示 URL
+            $('#urlDisplay').text(url).show().click(function() {
+                // 复制 URL 到剪贴板
+                navigator.clipboard.writeText(url).then(() => {
+                    alert('URL 已复制到剪贴板！');
+                }, (err) => {
+                    console.error('复制失败:', err);
+                });
+            });
         } else {
             $('#qrcode').text('请提供一个有效的 URL 参数。');
         }
